@@ -1,0 +1,64 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Roulette
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-12">
+            <h2>Selección de Ronda</h2>
+            <div id="roundSelector" style="font-size: 48px; text-align: center; margin: 20px 0;">1</div>
+            <hr>
+            <h3>Detalles de la Ronda Seleccionada:</h3>
+            <ul id="roundDetails" style="display: none;">
+                <li>Ronda seleccionada: <span id="selectedRound">{{ selected_round }}</span></li>
+                <li>Probabilidad (p): {{ p }}</li>
+                <li>Lotería 1: Con probabilidad {{ p }}, usted obtiene {{ x1_l }}, y con probabilidad {{ one_minus_p }}, obtiene {{ x1_h }}.</li>
+                <li>Lotería 2: Con probabilidad {{ p }}, usted obtiene {{ x2_h }}, y con probabilidad {{ one_minus_p }}, obtiene {{ x2_l }}.</li>
+                <li>Tu asignación en la Lotería: {{ alpha }}</li>
+            </ul>
+            <hr>
+            <h3>Felicidades. Tu ganancia adicional es:</h3>
+            <h2 class="text-center" id="expectedValue" style="display: none;">${{ expected_value }}</h2>
+        </div>
+    </div>
+</div>
+
+{% next_button %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function animateRoundSelection() {
+        const totalRounds = {{ Constants.num_rounds }};
+        const selectedRound = {{ selected_round }};
+        let currentRound = 1;
+        const roundSelector = document.getElementById('roundSelector');
+        const roundDetails = document.getElementById('roundDetails');
+        const expectedValue = document.getElementById('expectedValue');
+
+        function updateRound() {
+            if (currentRound <= totalRounds) {
+                roundSelector.textContent = currentRound;
+                currentRound++;
+                setTimeout(updateRound, 50);  // Change number every 50ms
+            } else {
+                // Final update to show the selected round
+                setTimeout(() => {
+                    roundSelector.textContent = selectedRound;
+                    roundDetails.style.display = 'block';
+                    expectedValue.style.display = 'block';
+                }, 500);  // Wait 500ms before showing the final result
+            }
+        }
+
+        updateRound();
+    }
+
+    // Start the animation when the page loads
+    window.onload = animateRoundSelection;
+</script>
+{% endblock %}

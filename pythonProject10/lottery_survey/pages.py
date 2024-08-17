@@ -1,5 +1,49 @@
 from otree.api import Page
 from .models import Constants
+import random
+
+
+class Roulette(Page):
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds
+
+    def vars_for_template(self):
+        # Randomly select one of the 45 rounds
+        selected_round = random.randint(1, Constants.num_rounds)
+        player_in_selected_round = self.player.in_round(selected_round)
+
+        # Get the scenario and round information for the selected round
+        scenario_index = (selected_round - 1) // 9
+        round_in_scenario = (selected_round - 1) % 9
+        scenario = Constants.scenarios[scenario_index]
+
+        # Safely get the alpha value, use a default if it's None
+        alpha = player_in_selected_round.field_maybe_none('alpha')
+        if alpha is None:
+            alpha = 0.5  # Default value if alpha is not set
+
+        p = round(scenario['p_values'][round_in_scenario], 2)
+        one_minus_p = round(1 - p, 2)
+        x1_l = scenario['x1_l_values'][round_in_scenario]
+        x1_h = scenario['x1_h_values'][round_in_scenario]
+        x2_l = scenario['x2_l_values'][round_in_scenario]
+        x2_h = scenario['x2_h_values'][round_in_scenario]
+
+        expected_value = (p * (alpha * x1_l + (1 - alpha) * x2_h) + one_minus_p * (alpha * x1_h + (1 - alpha) * x2_l))
+
+        return {
+            'selected_round': selected_round,
+            'alpha': round(alpha, 2),
+            'p': p,
+            'one_minus_p': one_minus_p,
+            'x1_l': round(x1_l, 1),
+            'x1_h': round(x1_h, 1),
+            'x2_l': round(x2_l, 1),
+            'x2_h': round(x2_h, 1),
+            'expected_value': round(expected_value, 2),
+            'Constants': Constants  # Add this line to include Constants in the context
+        }
+
 
 class ConsentForm(Page):
     form_model = 'player'
@@ -127,11 +171,12 @@ page_sequence = [
                 # example2,
                 # ConsentForm,
                  LotterySurvey,
-                 SurveyIntroduc,
-                 Demographics,
-                 CognitiveReflectionTest,
-                 FinancialLiteracy,
-                 RiskAttitudes,
+                # SurveyIntroduc,
+                # Demographics,
+                # CognitiveReflectionTest,
+                # FinancialLiteracy,
+                # RiskAttitudes,
                  DecisionMakingScenarios,
+                 Roulette,
                  EndPage
                  ]
