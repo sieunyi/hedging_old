@@ -2,39 +2,37 @@
 {% load otree static %}
 
 {% block title %}
-    Alfabetización Financiera
 {% endblock %}
 
 {% block content %}
 
 <ol>
     <li class="mb-3">
-        <p>Si compras una bebida por 60 pesos y pagas con un billete de cien pesos, </p>
+        <p>If you buy a drink for 6 dollars and pay with a ten dollar bill, how much change should you get in dollars? </p>
         {% formfield player.fin_change %}
     </li>
 
     <li class="mb-3">
-        <p>Si 5 personas tienen los números ganadores en la lotería y el premio es de 2 millones de pesos,</p>
+        <p>If 5 people all have the winning numbers in the lottery and the prize is $2 million, how much will each of them get in dollars? </p>
         {% formfield player.fin_lottery %}
     </li>
 
     <li class="mb-3">
-        <p>En una venta, una tienda está vendiendo todos los artículos a mitad de precio. Antes de la venta, un sofá cuesta 3000 pesos. </p>
+        <p>In a sale, a shop is selling all items at half price. Before the sale, a sofa costs $300. How much will it cost in the sale in dollars? </p>
         {% formfield player.fin_sale %}
     </li>
 
     <li class="mb-3">
-        <p>Si la probabilidad de contraer una enfermedad es del 10 por ciento, </p>
+        <p>If the chance of getting a disease is 10 percent, how many people out of 1,000 would be expected to get the disease?</p>
         {% formfield player.fin_disease %}
     </li>
-
     <li class="mb-3">
-        <p>Un vendedor de coches usados está vendiendo un coche por 120,000 pesos. Esto es dos tercios de lo que costó nuevo. </p>
+        <p>A second hand car dealer is selling a car for $6,000. This is two-thirds of what it cost new. How much did the car cost new in dollars?</p>
         {% formfield player.fin_cardealer %}
     </li>
 
     <li class="mb-3">
-        <p>Digamos que tienes 4,000 pesos en una cuenta de ahorros. La cuenta genera un 10% de interés por año. </p>
+        <p>Let's say you have $200 in a savings account. The account earns 10% interest per year. How much will you have in the account in dollars at the end of two years? </p>
         {% formfield player.fin_interest %}
     </li>
 </ol>

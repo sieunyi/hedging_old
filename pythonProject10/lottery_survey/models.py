@@ -12,47 +12,111 @@ from otree.api import (
 
 class Player(BasePlayer):
     # Consent form fields
-    consent_age = models.BooleanField(label="Tengo 18 años o más.")
-    consent_read = models.BooleanField(label="He leído y entiendo la información anterior.")
-    consent_participate = models.BooleanField(label="Quiero participar en esta investigación y continuar con el estudio.")
+    consent_age = models.BooleanField(label="I am 18 years of age or older.")
+    consent_read = models.BooleanField(label="I have read and understand the information above.")
+    consent_participate = models.BooleanField(label="I want to participate in this research and continue with the study.")
 
     # Survey fields
-    age_check = models.BooleanField(label="¿Tiene 18 años de edad o más?", choices=[[True, 'Sí'], [False, 'No']])
-    gender = models.StringField(label="¿Con qué género te identificas?", choices=['Femenino', 'No binario', 'Masculino'], widget=widgets.RadioSelect)
-    career = models.StringField(label="¿Cuál es tu carrera?")
-    native_language = models.StringField(label="¿Cuál es tu lengua materna?")
-    university_year = models.StringField(label="¿En qué año de la universidad estás?", choices=['Primer año', 'Segundo año', 'Tercer año', 'Cuarto año', 'Posgrado', 'Otro'], widget=widgets.RadioSelect)
-    gpa = models.FloatField(label="¿Cuál es tu promedio actual? (0-5, hasta 4 decimales)", min=0, max=5)
-    smoker = models.BooleanField(label="¿Eres fumador?", choices=[[True, 'Sí'], [False, 'No']], widget=widgets.RadioSelect)
-    alcohol = models.BooleanField(label="¿Practicas el consumo excesivo de alcohol?", choices=[[True, 'Sí'], [False, 'No']], widget=widgets.RadioSelect)
-    drugs = models.BooleanField(label="¿Consumes drogas recreativas?", choices=[[True, 'Sí'], [False, 'No']], widget=widgets.RadioSelect)
-    weekly_spending = models.CurrencyField(label="¿Cuál es tu gasto semanal en pesos mexicanos?")
+    age_check = models.BooleanField(label="Are you 18 years of age or older?", choices=[[True, 'Yes'], [False, 'No']])
+    gender = models.StringField(label="What gender do you identify as?", choices=['Female', 'Non-binary', 'Male'], widget=widgets.RadioSelect)
+    career = models.StringField(label="What is your major?")
+    native_language = models.StringField(label="What is your native language?")
+    university_year = models.StringField(label="What year are you in university?", choices=['First year', 'Second year', 'Third year', 'Fourth year', 'Graduate', 'Other'], widget=widgets.RadioSelect)
+    gpa = models.FloatField(label="What is your current GPA? (0-5, up to 4 decimal places)", min=0, max=5)
+    smoker = models.StringField(
+        label="Are you a smoker?",
+        choices=[['Yes', 'Yes'], ['No', 'No'], ['Prefer not to answer', 'Prefer not to answer']],
+        widget=widgets.RadioSelect
+    )
+    alcohol = models.StringField(
+        label="Do you practice excessive alcohol consumption?",
+        choices=[['Yes', 'Yes'], ['No', 'No'], ['Prefer not to answer', 'Prefer not to answer']],
+        widget=widgets.RadioSelect
+    )
+    drugs = models.StringField(
+        label="Do you use recreational drugs?",
+        choices=[['Yes', 'Yes'], ['No', 'No'], ['Prefer not to answert', 'Prefer not to answer']],
+        widget=widgets.RadioSelect
+    )
+
+    weekly_spending = models.IntegerField(label="What is your weekly spending in USD?")
 
     # Cognitive Reflection Test
-    crt_linda = models.StringField(label="¿Cuál de las siguientes dos alternativas es más probable?", choices=['Linda es cajera de banco.', 'Linda es cajera de banco y activista en el movimiento feminista.'], widget=widgets.RadioSelect)
-    crt_bat = models.FloatField(label="¿Cuántos dólares cuesta la pelota?")
-    crt_widget = models.IntegerField(label="¿Cuántos minutos tardarían 100 máquinas en hacer 100 widgets?")
-    crt_lake = models.IntegerField(label="¿Cuántos días tardaría en cubrir la mitad del lago?")
-    crt_double = models.StringField(label="En 2021, ¿cuánto podrás comprar con tu ingreso?:", choices=['Más que hoy.', 'Exactamente lo mismo que hoy.', 'Menos que hoy.'], widget=widgets.RadioSelect)
+    crt_linda = models.StringField(label="Which of the following two alternatives is more likely?", choices=['Linda is a bank teller.', 'Linda is a bank teller and active in the feminist movement.'], widget=widgets.RadioSelect)
+    crt_bat = models.FloatField(label="How many dollars does the ball cost?")
+    crt_widget = models.IntegerField(label="How many minutes would it take 100 machines to make 100 widgets?")
+    crt_lake = models.IntegerField(label="How many days would it take to cover half of the lake?")
+    crt_double = models.StringField(label="In 2021, how much will you be able to buy with your income?:", choices=['More than today.', 'Exactly the same as today.', 'Less than today.'], widget=widgets.RadioSelect)
 
     # Financial Literacy
-    fin_change = models.CurrencyField(label="¿Cuánto cambio deberías recibir en pesos mexicanos?")
-    fin_lottery = models.CurrencyField(label="¿Cuánto recibirá cada uno en pesos mexicanos?")
-    fin_sale = models.CurrencyField(label="¿Cuánto costará en la venta en pesos mexicanos?")
-    fin_cardealer = models.CurrencyField(label="¿Cuánto costó el coche nuevo en pesos mexicanos?")
-    fin_interest = models.CurrencyField(label="¿Cuánto tendrás en la cuenta en pesos mexicanos al final de dos años?")
-    fin_disease = models.IntegerField(label="¿Cuántas personas de 1,000 se esperaría que contrajeran la enfermedad?")
+    fin_change =  models.IntegerField(label="")
+    fin_lottery = models.IntegerField(label="")
+    fin_sale = models.IntegerField(label="")
+    fin_cardealer = models.IntegerField(label="")
+    fin_interest = models.IntegerField(label="")
+    fin_disease = models.IntegerField(label="")
 
     # Risk Attitudes
-    risk_general = models.IntegerField(label="¿Cómo calificarías tu disposición a asumir riesgos en general?", min=1, max=10)
-    risk_driving = models.IntegerField(label="¿Cómo calificarías tu disposición a asumir riesgos al conducir?", min=1, max=10)
-    risk_career = models.IntegerField(label="¿Cómo calificarías tu disposición a asumir riesgos en tu carrera profesional?", min=1, max=10)
-    risk_health = models.IntegerField(label="¿Cómo calificarías tu disposición a asumir riesgos con respecto a tu salud?", min=1, max=10)
-
+    risk_general = models.IntegerField(label="How would you rate your willingness to take risks in general?", min=1, max=10)
+    risk_driving = models.IntegerField(label="How would you rate your willingness to take risks while driving?", min=1, max=10)
+    risk_career = models.IntegerField(label="How would you rate your willingness to take risks in your professional career?", min=1, max=10)
+    risk_health = models.IntegerField(label="How would you rate your willingness to take risks with respect to your health?", min=1, max=10)
+    Matrix_B06 = models.IntegerField(
+        label='From the 6 squares on the right, please select the square that you think would best fit in the missing square in the sequence on the left (the square with ?).',
+        choices=[1, 2, 3, 4, 5, 6],
+        widget=widgets.RadioSelect
+    )
+    Matrix_B09 = models.IntegerField(
+        label='From the 6 squares on the right, please select the square that you think would best fit in the missing square in the sequence on the left (the square with ?).',
+        choices=[1, 2, 3, 4, 5, 6],
+        widget=widgets.RadioSelect
+    )
+    Matrix_B11 = models.IntegerField(
+        label='From the 6 squares on the right, please select the square that you think would best fit in the missing square in the sequence on the left (the square with ?).',
+        choices=[1, 2, 3, 4, 5, 6],
+        widget=widgets.RadioSelect
+    )
+    Matrix_C02 = models.IntegerField(
+        label='From the 8 squares on the right, please select the square that you think would best fit in the missing square in the sequence on the left (the square with ?).',
+        choices=[1, 2, 3, 4, 5, 6, 7, 8],
+        widget=widgets.RadioSelect
+    )
+    Matrix_C05 = models.IntegerField(
+        label='From the 8 squares on the right, please select the square that you think would best fit in the missing square in the sequence on the left (the square with ?).',
+        choices=[1, 2, 3, 4, 5, 6, 7, 8],
+        widget=widgets.RadioSelect
+    )
+    Matrix_C12 = models.IntegerField(
+        label='From the 8 squares on the right, please select the square that you think would best fit in the missing square in the sequence on the left (the square with ?).',
+        choices=[1, 2, 3, 4, 5, 6, 7, 8],
+        widget=widgets.RadioSelect
+    )
+    Matrix_D05 = models.IntegerField(
+        label='From the 8 squares on the right, please select the square that you think would best fit in the missing square in the sequence on the left (the square with ?).',
+        choices=[1, 2, 3, 4, 5, 6, 7, 8],
+        widget=widgets.RadioSelect
+    )
+    Matrix_D07 = models.IntegerField(
+        label='From the 8 squares on the right, please select the square that you think would best fit in the missing square in the sequence on the left (the square with ?).',
+        choices=[1, 2, 3, 4, 5, 6, 7, 8],
+        widget=widgets.RadioSelect
+    )
+    Matrix_E07 = models.IntegerField(
+        label='From the 8 squares on the right, please select the square that you think would best fit in the missing square in the sequence on the left (the square with ?).',
+        choices=[1, 2, 3, 4, 5, 6, 7, 8],
+        widget=widgets.RadioSelect
+    )
     # Decision Making Scenarios
-    scenario_jar = models.StringField(label="¿Qué frasco prefieres para adivinar el color de una bola?", choices=['Prefiero adivinar el color de una bola del frasco 1.', 'Soy indiferente.', 'Prefiero adivinar el color de una bola del frasco 2.'], widget=widgets.RadioSelect)
-    monty_hall = models.StringField(label="¿Te conviene cambiar tu elección?", choices=['Prefiero mantener mi elección original (Puerta número 1).', 'No importa si cambio o no.', 'Prefiero cambiar a la Puerta número 2.'], widget=widgets.RadioSelect)
-
+    scenario_jar = models.StringField(label="Which jar do you prefer for guessing the color of a ball?", choices=['I prefer to guess the color of a ball from jar 1.', 'I am indifferent.', 'I prefer to guess the color of a ball from jar 2.'], widget=widgets.RadioSelect)
+    monty_hall = models.StringField(
+        label="Is it beneficial for you to change your choice?",
+        choices=[
+            'I prefer to keep my original choice (Door number 1).',
+            "It doesn't matter if I change or not.",
+            'I prefer to switch to Door number 2.'
+        ],
+        widget=widgets.RadioSelect
+    )
     # Timing fields
     decision_time = models.FloatField()
     continue_field = models.StringField(label="")
@@ -66,9 +130,6 @@ class Player(BasePlayer):
     x1_h = models.FloatField()
     x2_h = models.FloatField()
     x2_l = models.FloatField()
-
-
-
 
 
 class Constants(BaseConstants):
@@ -138,4 +199,3 @@ class Subsession(BaseSubsession):
 
 class Group(BaseGroup):
     pass
-

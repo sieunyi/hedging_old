@@ -9,19 +9,19 @@
 <div class="container">
     <div class="row justify-content-center mb-4">
         <div class="col-md-12">
-            <h2>Selección de Ronda</h2>
+            <h2>Round Selection</h2>
             <div id="roundSelector" style="font-size: 48px; text-align: center; margin: 20px 0;">1</div>
             <hr>
-            <h3>Detalles de la Ronda Seleccionada:</h3>
+            <h3>Selected Round Details:</h3>
             <ul id="roundDetails" style="display: none;">
-                <li>Ronda seleccionada: <span id="selectedRound">{{ selected_round }}</span></li>
-                <li>Probabilidad (p): {{ p }}</li>
-                <li>Lotería 1: Con probabilidad {{ p }}, usted obtiene {{ x1_l }}, y con probabilidad {{ one_minus_p }}, obtiene {{ x1_h }}.</li>
-                <li>Lotería 2: Con probabilidad {{ p }}, usted obtiene {{ x2_h }}, y con probabilidad {{ one_minus_p }}, obtiene {{ x2_l }}.</li>
-                <li>Tu asignación en la Lotería: {{ alpha }}</li>
+                <li>Selected round: <span id="selectedRound">{{ selected_round }}</span></li>
+                <li>Probability (p): {{ p }}</li>
+                <li>Lottery 1: With probability {{ p }}, you get {{ x1_l }}, and with probability {{ one_minus_p }}, you get {{ x1_h }}.</li>
+                <li>Lottery 2: With probability {{ p }}, you get {{ x2_h }}, and with probability {{ one_minus_p }}, you get {{ x2_l }}.</li>
+                <li>Your allocation in the Lottery: {{ alpha }}</li>
             </ul>
             <hr>
-            <h3>Felicidades. Tu ganancia adicional es:</h3>
+            <h3>Congratulations. Your additional earnings are:</h3>
             <h2 class="text-center" id="expectedValue" style="display: none;">${{ expected_value }}</h2>
         </div>
     </div>

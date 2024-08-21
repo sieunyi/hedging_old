@@ -2,34 +2,35 @@
 {% load otree static %}
 
 {% block title %}
-    Reflexión Cognitiva
+
 {% endblock %}
 
 {% block content %}
 
 <ol>
     <li class="mb-3">
-        <p>Linda tiene 31 años, es soltera, extrovertida y muy inteligente. Se graduó en filosofía. Como estudiante, estaba profundamente preocupada por temas de discriminación y justicia social, y también participó en manifestaciones antinucleares.</p>
+        <p>Linda is 31 years old, single, outspoken, and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.</p>
         {% formfield player.crt_linda %}
     </li>
 
     <li class="mb-3">
-        <p>Un bate y una pelota cuestan 440 pesos mexicanos en total. El bate cuesta 400 pesos mexicanos más que la pelota.</p>
+        <p>A bat and a ball cost 22 dollars in total. The bat costs 20 dollars more than the ball.
+</p>
         {% formfield player.crt_bat %}
     </li>
 
     <li class="mb-3">
-        <p>Si 5 máquinas tardan 5 minutos en hacer 5 widgets,</p>
+        <p>If it takes 5 machines 5 minutes to make 5 widgets,</p>
         {% formfield player.crt_widget %}
     </li>
 
     <li class="mb-3">
-        <p>En un lago, hay un grupo de nenúfares. Cada día, el grupo duplica su tamaño. Si tarda 48 días en cubrir todo el lago,</p>
+        <p>In a lake, there is a patch of lily pads. Every day, the patch doubles in size. If it takes 48 days for the patch to cover the entire lake,</p>
         {% formfield player.crt_lake %}
     </li>
 
     <li class="mb-3">
-        <p>Supón que en el año 2021, tu ingreso se ha duplicado y los precios de todos los bienes también se han duplicado.</p>
+        <p>Suppose that in the year 2021, your income has doubled and the prices of all goods have also doubled.</p>
         {% formfield player.crt_double %}
     </li>
 </ol>

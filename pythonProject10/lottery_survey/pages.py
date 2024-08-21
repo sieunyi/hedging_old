@@ -153,6 +153,12 @@ class DecisionMakingScenarios(Page):
         return self.round_number == Constants.num_rounds
 
 
+class MatrixReasoning(Page):
+    form_model = 'player'
+    form_fields = ['Matrix_B06', 'Matrix_B09', 'Matrix_B11', 'Matrix_C02', 'Matrix_C05',
+                   'Matrix_C12', 'Matrix_D05', 'Matrix_D07', 'Matrix_E07']
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds
 
 class EndPage(Page):
     def is_displayed(self):
@@ -165,18 +171,19 @@ class EndPage(Page):
 
 
 page_sequence = [
-                # welcome,
-                # Introduction,
-                # example,
-                # example2,
-                # ConsentForm,
+                 welcome,
+                 Introduction,
+                 example,
+                 example2,
+                 ConsentForm,
                  LotterySurvey,
+                 Roulette,
                 # SurveyIntroduc,
                 # Demographics,
                 # CognitiveReflectionTest,
-                # FinancialLiteracy,
-                # RiskAttitudes,
-                 DecisionMakingScenarios,
-                 Roulette,
+                 #FinancialLiteracy,
+                 #RiskAttitudes,
+                 #MatrixReasoning,
+                 #DecisionMakingScenarios,
                  EndPage
                  ]
