@@ -18,7 +18,14 @@ SESSION_CONFIGS = [
 
 INSTALLED_APPS = ['otree', 'lottery_survey']
 
-
+ROOMS = [
+    dict(
+        name='lottery_survey_room',
+        display_name='Lottery Survey Room',
+        participant_label_file='_rooms/lottery_survey_room.txt',
+        use_secure_urls=True
+    ),
+]
 
 
 SESSION_CONFIG_DEFAULTS = dict(
