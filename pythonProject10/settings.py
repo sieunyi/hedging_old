@@ -1,11 +1,6 @@
 from os import environ
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '_static'),
-]
+
 
 SESSION_CONFIGS = [
     dict(
@@ -22,8 +17,7 @@ ROOMS = [
     dict(
         name='lottery_survey_room',
         display_name='Lottery Survey Room',
-        participant_label_file='_rooms/lottery_survey_room.txt',
-        use_secure_urls=false
+        participant_label_file='_rooms/lottery_survey_room.txt'
     ),
 ]
 
