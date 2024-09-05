@@ -181,12 +181,21 @@ class Practice(Page):
             'one_minus_p': 0.4,
         }
 
+
+class EarningsExplanation(Page):
+    form_model = 'player'
+
+    def is_displayed(self):
+        return self.round_number == 1  # Only show on the first round
+
+
 page_sequence = [
                  welcome,
                  Introduction,
                  example2,
                 Practice,
-                 LotterySurvey,
+    EarningsExplanation,
+    LotterySurvey,
                  Roulette,
                  SurveyIntroduc,
                  Demographics,

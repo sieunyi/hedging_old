@@ -10,6 +10,7 @@ from otree.api import (
 )
 
 
+
 class Player(BasePlayer):
     # Consent form fields
     consent_age = models.BooleanField(
