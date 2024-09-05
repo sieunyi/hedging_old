@@ -169,12 +169,23 @@ class EndPage(Page):
     pass
 
 
+class Practice(Page):
+    form_model = 'player'
+
+    def get_form_fields(self):
+        return []  # This will prevent storing any data from the practice round
+
+    def vars_for_template(self):
+        return {
+            'p': 0.6,
+            'one_minus_p': 0.4,
+        }
 
 page_sequence = [
                  welcome,
                  Introduction,
-                 example,
                  example2,
+                Practice,
                  LotterySurvey,
                  Roulette,
                  SurveyIntroduc,

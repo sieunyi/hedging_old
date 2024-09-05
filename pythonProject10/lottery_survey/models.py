@@ -40,7 +40,7 @@ class Player(BasePlayer):
     university_year = models.StringField(label="What year are you in university?",
                                          choices=['First year', 'Second year', 'Third year', 'Fourth year', 'Graduate',
                                                   'Other'], widget=widgets.RadioSelect)
-    gpa = models.FloatField(label="What is your current GPA? (0-5, up to 4 decimal places)", min=0, max=5)
+    gpa = models.FloatField(label="What is your current GPA? (0-4, up to 4 decimal places)", min=0, max=4)
     smoker = models.StringField(
         label="Are you a smoker?",
         choices=[['Yes', 'Yes'], ['No', 'No'], ['Prefer not to answer', 'Prefer not to answer']],
@@ -53,7 +53,7 @@ class Player(BasePlayer):
     )
     drugs = models.StringField(
         label="Do you use recreational drugs?",
-        choices=[['Yes', 'Yes'], ['No', 'No'], ['Prefer not to answert', 'Prefer not to answer']],
+        choices=[['Yes', 'Yes'], ['No', 'No'], ['Prefer not to answer', 'Prefer not to answer']],
         widget=widgets.RadioSelect
     )
 

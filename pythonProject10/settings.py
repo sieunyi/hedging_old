@@ -1,7 +1,6 @@
 from os import environ
 import os
 
-
 SESSION_CONFIGS = [
     dict(
         name='lottery_survey',
