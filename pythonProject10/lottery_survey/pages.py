@@ -173,13 +173,15 @@ class Practice(Page):
     form_model = 'player'
 
     def get_form_fields(self):
-        return []  # This will prevent storing any data from the practice round
+        return []
 
     def vars_for_template(self):
         return {
             'p': 0.6,
             'one_minus_p': 0.4,
         }
+    def is_displayed(self):
+        return self.round_number == 1
 
 
 class EarningsExplanation(Page):

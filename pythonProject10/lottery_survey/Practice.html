@@ -13,8 +13,9 @@
             <p>Please select how much of your money you want to allocate to L1. The remaining portion will automatically be allocated to L2.</p>
             <p>In this example, we're using fruits to represent different outcomes:</p>
             <ul>
-                <li><strong>Lottery 1 (L1)</strong>: With probability <strong>{{ p }}</strong>, you get an <strong>Apple</strong>, and with probability <strong>{{ one_minus_p }}</strong>, you get a <strong>Banana</strong>.</li>
-                <li><strong>Lottery 2 (L2)</strong>: With probability <strong>{{ p }}</strong>, you get a <strong>Strawberry</strong>, and with probability <strong>{{ one_minus_p }}</strong>, you get a <strong>Blueberry</strong>.</li>
+                <li><strong>Lottery 1 (L1)</strong>: With probability <strong>{{ p }}</strong>, you get a <strong>Strawberry</strong>, and with probability <strong>{{ one_minus_p }}</strong>, you get a <strong>Blueberry</strong>.</li>
+                <li><strong>Lottery 2 (L2)</strong>: With probability <strong>{{ p }}</strong>, you get an <strong>Apple</strong>, and with probability <strong>{{ one_minus_p }}</strong>, you get a <strong>Banana</strong>.</li>
+
           <p>Try adjusting the slider to see how your allocation affects the outcome.</p>
 
             </ul>
@@ -26,7 +27,7 @@
             <div class="col-md-3">
                 <div style="height: 250px; width: 100%;">
                    <img src="{{ static 'images/appplebanana.png' }}" alt="Apple and Banana" style="max-width: 100%; max-height: 250px;">
-                    <p class="text-center mt-2"><strong>L1: Apple & Banana</strong></p>
+                    <p class="text-center mt-2"><strong>L2: Apple & Banana</strong></p>
                 </div>
             </div>
             <div class="col-md-5">
@@ -55,7 +56,7 @@
             <div class="col-md-3">
                 <div style="height: 250px; width: 100%;">
                    <img src="{{ static 'images/berries.png' }}" alt="Strawberry and Blueberry" style="max-width: 100%; max-height: 250px;">
-                    <p class="text-center mt-2"><strong>L2: Strawberry & Blueberry</strong></p>
+                    <p class="text-center mt-2"><strong>L1: Strawberry & Blueberry</strong></p>
                 </div>
             </div>
         </div>
@@ -278,7 +279,7 @@
     document.querySelector('form').addEventListener('submit', function(event) {
         if (!validateAlpha()) {
             event.preventDefault();
-            showError("Please choose a number between 0.1 and 1 before submitting.");
+            showError("Please choose a number between 0.01 and 1 before submitting.");
         }
     });
     validateAlpha();
