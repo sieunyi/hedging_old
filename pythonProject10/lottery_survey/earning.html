@@ -1,0 +1,27 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+Potential Outcome Calculation Example
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+                <ul style="font-size: 1.25rem; line-height: 1.5;">
+
+                    <li>For example, if you allocate 60% to L1, and the values are:
+                        <ul>
+                            <li>L1_low = -10, L1_high = 15, L2_low = -5, L2_high = 10, p = 0.4</li>
+                            <li> With 40% chance: 0.6 * (-10) + 0.4 * 10 = -2</li>
+                            <li> With 60% chance: 0.6 * 15 + 0.4 * (-5) = 7</li>
+                          <li>Potential Outcome will be: 0.4 * (0.6 * (-10) + 0.4 * 10) + 0.6 * (0.6 * 15 + 0.4 * (-5))  </li>
+                        </ul>
+                    </li>
+
+        </ul>
+
+          {% next_button %}
+</div>
+{% endblock %}

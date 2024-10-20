@@ -1,20 +1,50 @@
 {% extends "global/Page.html" %}
-{% block title %}Example:{% endblock %}
+{% block title %}How to Make Decisions:{% endblock %}
 {% block content %}
-   <div class="container">
-<div class="mt-3">
+<div class="container">
+    <h5>Please read these instructions carefully to understand how to make your allocations:</h5>
 
-    <p>You can adjust the proportion of your investment in Lottery 1 by moving the slider.  </p>
-        <ul>
-        <li>If the value is 0.3, you allocate 30% of your money to Lottery 1 and 70% to Lottery 2.</li>
-        <li>If the value is 1, you allocate all your money to Lottery 1.</li>
+    <ul style="font-size: 1.25rem; line-height: 1.5;">
+        <li>
+            <strong>Using the Slider:</strong>
+            <ul style="font-size: 1.25rem; line-height: 1.5;">
+                <li>You will see a slider on your screen for each round.</li>
+                <li>This slider determines your allocation between Lottery 1 (L1) and Lottery 2 (L2).</li>
+                <li>Moving the slider adjusts the percentage allocated to L1. The remaining percentage is automatically allocated to L2.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Understanding the Allocations:</strong>
+            <ul style="font-size: 1.25rem; line-height: 1.5;">
+                <li>The slider values range from 0.01 (1%) to 1.00 (100%).</li>
+                <li>For example:
+                    <ul>
+                        <li>A slider value of 0.3 means 30% in L1 and 70% in L2.</li>
+                        <li>A slider value of 0.75 means 75% in L1 and 25% in L2.</li>
+                        <li>A slider value of 1.0 means 100% in L1 and 0% in L2.</li>
+                    </ul>
+                </li>
+                <li>You can adjust the slider in increments of 0.01 (1%) for precise allocations.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Important Rules:</strong>
+            <ul style="font-size: 1.25rem; line-height: 1.5;">
+                <li>The minimum allocation to L1 is 1% (0.01 on the slider).</li>
+                <li>You cannot allocate 0% to L1 - selecting 0 is not permitted.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Making Your Decision:</strong>
+            <ul style="font-size: 1.25rem; line-height: 1.5;">
+                <li>Consider the probabilities and potential outcomes for each lottery carefully.</li>
+                <li>Adjust the slider until you're satisfied with your allocation between L1 and L2.</li>
+                <li>Once you've made your decision, you can proceed to the next round.</li>
+            </ul>
+        </li>
     </ul>
-    <p> You can choose any number from 0.01 to 1.0 in increments of 0.01. The minimum investment in Lottery 1 is 1% (0.01), as selecting 0 is not allowed. </p>
+
+
+    {% next_button %}
 </div>
-
-
-
- {% next_button %}
-
-   </div>
 {% endblock %}

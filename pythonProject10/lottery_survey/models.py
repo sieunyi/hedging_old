@@ -8,6 +8,8 @@ from otree.api import (
     Currency as c,
     currency_range
 )
+import random
+
 
 
 
@@ -128,6 +130,8 @@ class Player(BasePlayer):
 
 # Fields from the second Player class
     alpha = models.FloatField(min=0, max=1)
+    original_round_number = models.IntegerField()
+    original_scenario_number = models.IntegerField()
     p = models.FloatField()
     one_minus_p = models.FloatField()
     x1_l = models.FloatField()
@@ -135,66 +139,98 @@ class Player(BasePlayer):
     x2_h = models.FloatField()
     x2_l = models.FloatField()
 
-
 class Constants(BaseConstants):
     name_in_url = 'hedging'
     players_per_group = None
     num_rounds = 45
     individual_rounds = 45
+    practice_rounds = 1
 
     scenarios = [
-        {
-            'p_values': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
-            'one_minus_p_values': [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1],
-            'x1_l_values': [-6.0, -4.0, -3.1, -2.4, -2.0, -1.6, -1.3, -1.0, -0.7],
-            'x1_h_values': [0.7, 1.0, 1.3, 1.6, 2.0, 2.4, 3.1, 4.0, 6.0],
-            'x2_h_values': [0.4, 0.7, 1.1, 1.5, 2.0, 2.6, 3.3, 4.3, 6.3],
-            'x2_l_values': [-6.3, -4.3, -3.3, -2.6, -2.0, -1.5, -1.1, -0.7, -0.4]
-        },
+        # Scenario 1
         {
             'p_values': [0.5] * 9,
             'one_minus_p_values': [0.5] * 9,
-            'x1_l_values': [-8, -7, -6, -5, -4, -3, -2, -1, 0],
-            'x1_h_values': [1, 2, 3, 4, 5, 6, 7, 8, 9],
-            'x2_h_values': [1, 2, 3, 4, 5, 6, 7, 8, 9],
-            'x2_l_values': [-8, -7, -6, -5, -4, -3, -2, -1, 0]
+            'x1_l_values': [-13.95, -13.20, -12.40, -11.60, -10.80, -10.00, -9.20, -8.40, -7.60],
+            'x1_h_values': [0.05, 0.80, 1.60, 2.40, 3.20, 4.00, 4.80, 5.60, 6.40],
+            'x2_h_values': [0.05, 0.80, 1.60, 2.40, 3.20, 4.00, 4.80, 5.60, 6.40],
+            'x2_l_values': [-13.95, -13.20, -12.40, -11.60, -10.80, -10.00, -9.20, -8.40, -7.60]
         },
+
+        # Scenario 2
         {
             'p_values': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
             'one_minus_p_values': [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1],
-            'x1_l_values': [-6.0, -4.0, -3.1, -2.4, -2.0, -1.6, -1.3, -1.0, -0.7],
-            'x1_h_values': [0.7, 1.0, 1.3, 1.6, 2.0, 2.4, 3.1, 4.0, 6.0],
-            'x2_h_values': [6.4, 4.0, 3.1, 2.4, 2.0, 1.6, 1.3, 1.0, 0.7],
-            'x2_l_values': [-0.7, -1.0, -1.3, -1.6, -2.0, -2.4, -3.1, -4.0, -6.0]
+            'x1_l_values': [-8.60, -6.00, -4.71, -4.02, -3.41, -2.92, -2.53, -2.11, -1.68],
+            'x1_h_values': [0.08, 0.51, 0.97, 1.30, 1.80, 2.40, 3.15, 4.40, 7.00],
+            'x2_h_values': [3.00, 1.80, 1.50, 1.35, 1.00, 0.70, 0.50, 0.25, 0.05],
+            'x2_l_values': [-5.60, -4.65, -4.13, -3.92, -4.16, -4.57, -5.13, -6.20, -8.55]
         },
+
+        # Scenario 3
         {
             'p_values': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
             'one_minus_p_values': [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1],
-            'x1_l_values': [-6.0, -4.0, -3.1, -2.4, -2.0, -1.6, -1.3, -1.0, -0.7],
-            'x1_h_values': [0.7, 1.0, 1.3, 1.6, 2.0, 2.4, 3.1, 4.0, 6.0],
-            'x2_h_values': [0.4] * 9,
-            'x2_l_values': [-6.3, -4.6, -4.0, -3.7, -3.6, -3.7, -4.0, -4.6, -6.3]
+            'x1_l_values': [-8.50, -6.00, -4.70, -4.00, -3.40, -2.90, -2.53, -2.10, -1.70],
+            'x1_h_values': [0.09, 0.50, 0.97, 1.30, 1.80, 2.40, 3.15, 4.40, 6.96],
+            'x2_h_values': [8.00, 7.00, 6.00, 5.00, 4.00, 3.00, 2.00, 1.00, 0.05],
+            'x2_l_values': [-20.00, -14.00, -12.30, -12.10, -12.80, -14.10, -16.30, -20.00, -28.00]
         },
+
+        # Scenario 4
         {
             'p_values': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
             'one_minus_p_values': [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1],
-            'x1_l_values': [-6.0, -4.0, -3.1, -2.4, -2.0, -1.6, -1.3, -1.0, -0.7],
-            'x1_h_values': [0.7, 1.0, 1.3, 1.6, 2.0, 2.4, 3.1, 4.0, 6.0],
-            'x2_h_values': [6.3, 4.6, 4.0, 3.7, 3.6, 3.7, 4.0, 4.6, 6.3],
-            'x2_l_values': [-0.4] * 9
+            'x1_l_values': [-25.00, -17.60, -14.00, -11.80, -10.10, -8.70, -7.50, -6.30, -5.10],
+            'x1_h_values': [0.01, 1.20, 2.40, 3.60, 4.90, 6.60, 8.90, 12.50, 20.00],
+            'x2_h_values': [8.00, 7.00, 6.00, 5.00, 4.00, 3.04, 2.00, 1.00, 0.50],
+            'x2_l_values': [-20.00, -14.00, -12.30, -12.10, -12.80, -14.10, -16.30, -20.00, -27.50]
+        },
+
+        # Scenario 5
+        {
+            'p_values': [0.5] * 9,
+            'one_minus_p_values': [0.5] * 9,
+            'x1_l_values': [-7.60] * 9,
+            'x1_h_values': [6.40] * 9,
+            'x2_h_values': [0.10, 0.80, 1.60, 2.40, 3.20, 4.00, 4.80, 5.60, 6.40],
+            'x2_l_values': [-13.90, -13.20, -12.40, -11.60, -10.80, -10.00, -9.20, -8.40, -7.60]
         }
     ]
+
+    practice_scenarios = [
+
+        {
+            'p_values': [0.1, 0.5, 0.8],
+            'one_minus_p_values': [0.9, 0.5, 0.2],
+            'x1_l_values': [-8.60, -7.60, -2.10, ],
+            'x1_h_values': [0.08, 6.4, 4.40],
+            'x2_h_values': [3.00, 5.6, 1.00],
+            'x2_l_values': [-5.60, 8.4, -20]
+        }]
 
 
 class Subsession(BaseSubsession):
     def creating_session(self):
+        if self.round_number == 1:
+            shuffled_rounds = list(range(1, Constants.num_rounds + 1))
+            random.shuffle(shuffled_rounds)
+            self.session.vars['shuffled_rounds'] = shuffled_rounds
+
+        # Assign scenario values based on the shuffled round order
         for player in self.get_players():
-            scenario_index = (player.round_number - 1) // 9
-            round_in_scenario = (player.round_number - 1) % 9
+            # Get the shuffled round number for this player in this round
+            shuffled_round = self.session.vars['shuffled_rounds'][player.round_number - 1]
+
+            # Calculate scenario index and round in scenario based on the shuffled round
+            scenario_index = (shuffled_round - 1) // 9
+            round_in_scenario = (shuffled_round - 1) % 9
             scenario = Constants.scenarios[scenario_index]
 
+            # Assign values to player fields
+            player.original_round_number = shuffled_round
             player.p = scenario['p_values'][round_in_scenario]
-            player.one_minus_p = scenario['one_minus_p_values'][round_in_scenario]
+            player.one_minus_p = round(1 - player.p, 2)
             player.x1_l = scenario['x1_l_values'][round_in_scenario]
             player.x1_h = scenario['x1_h_values'][round_in_scenario]
             player.x2_h = scenario['x2_h_values'][round_in_scenario]

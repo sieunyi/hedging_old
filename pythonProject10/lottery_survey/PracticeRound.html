@@ -2,14 +2,15 @@
 {% load otree static %}
 
 {% block title %}
-    Round {{ round_number }} of {{ num_rounds }}
+   Practice Round
 {% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="row justify-content-center mb-4">
         <div class="col-md-12">
-            <p>Please select how much of your assets you want to allocate to Lottery 1. The remaining portion will automatically be allocated to Lottery 2.</p>
+            <p>Please select how much of your money you want to allocate to L1. The remaining portion will automatically be allocated to L2.</p>
+            <p>Experiment with the slider to observe how your allocation affects potential outcomes. </p>
             <ul>
                 <li> <strong> Lottery 1 (L1) </strong>: With probability <strong>{{ p }}</strong>, you get <strong>{{ x1_l }}</strong>, and with probability <strong>{{ one_minus_p }}</strong>, you get <strong>{{ x1_h }}</strong>.</li>
                 <li> <strong> Lottery 2 (L2) </strong>: With probability <strong>{{ p }}</strong>, you get <strong>{{ x2_h }}</strong>, and with probability <strong>{{ one_minus_p }}</strong>, you get <strong>{{ x2_l }}</strong>.</li>

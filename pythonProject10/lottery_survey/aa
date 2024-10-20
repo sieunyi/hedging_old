@@ -28,7 +28,7 @@
     </div>
     <div class="col-md-5">
 
- <div class="d-flex flex-column justify-content-center mt-4">
+<div class="d-flex flex-column justify-content-center mt-4">
   <label for="alpha_slider">Choose your investment portion in L1.</label>
   <input type="range" min="0.01" max="1" step="0.01" id="alpha_slider" oninput="updateAlphaFromSlider(this.value)" style="width: 100%;">
   <div class="d-flex justify-content-between mt-2" style="font-size: 0.7em;">
@@ -91,20 +91,19 @@
     var softBlue = '#4682B4';
     var mutedOrange = '#D2691E';
 
-
 function updateAlphaFromSlider(value) {
     var reversedValue = (1.01 - parseFloat(value)).toFixed(2);
-    var roundedValue = Math.max(0.01, Math.min(1, parseFloat(reversedValue)));
-    document.getElementById('alpha_slider').value = value; // Keep original value for slider??
+    var roundedValue = Math.max(0.01, Math.min(1, reversedValue));
+    document.getElementById('alpha_slider').value = value;
     document.getElementById('id_alpha').value = roundedValue;
     document.getElementById('alpha_input').value = roundedValue;
-    updateEVGraphs(roundedValue);
+    updateEVGraphs(parseFloat(roundedValue));
     validateAlpha();
 }
 
+
 function validateAlpha() {
-    var sliderValue = parseFloat(document.getElementById('alpha_slider').value);
-    var reversedSliderValue = (1.01 - sliderValue).toFixed(2);
+    var sliderValue = 1.01 - parseFloat(document.getElementById('alpha_slider').value);
     var inputValue = parseFloat(document.getElementById('alpha_input').value || 0);
     var errorMessage = document.getElementById('error_message');
     var nextButton = document.querySelector('.otree-btn-next');
@@ -113,38 +112,26 @@ function validateAlpha() {
         showError("");
         nextButton.disabled = true;
         return false;
-    } else if (Math.abs(reversedSliderValue - inputValue) > 0.001) {
+    } else if (Math.abs(sliderValue - inputValue) > 0.001) {
         showError("The slider value and input value must match.");
         nextButton.disabled = true;
         return false;
     } else {
         errorMessage.style.display = 'none';
-        document.getElementById('id_alpha').value = inputValue.toFixed(2);
+        document.getElementById('id_alpha').value = sliderValue.toFixed(2);
         nextButton.disabled = false;
         return true;
     }
 }
 
-
-    var alphaSlider = document.getElementById('alpha_slider');
-    var alphaInput = document.getElementById('alpha_input');
-var hiddenAlphaInput = document.getElementById('id_alpha');
-alphaSlider.value = '';
-alphaInput.value = '';
-hiddenAlphaInput.value = '';
-hiddenAlphaInput.style.display = 'none';
-
-// Update the input listener to reverse the slider value
 alphaInput.addEventListener('input', function() {
     var value = parseFloat(this.value);
     if (!isNaN(value) && value >= 0.01 && value <= 1) {
-        alphaSlider.value = (1.01 - value).toFixed(2);
+        alphaSlider.value = 1.01 - value;
         updateAlphaFromSlider(alphaSlider.value);
     }
     validateAlpha();
 });
-
-
 
     function showError(message) {
         var errorMessage = document.getElementById('error_message');
@@ -154,13 +141,15 @@ alphaInput.addEventListener('input', function() {
     }
 
 
-    var alphaSlider = document.getElementById('alpha_slider');
-    var alphaInput = document.getElementById('alpha_input');
-    var hiddenAlphaInput = document.getElementById('id_alpha');
-    alphaSlider.value = 0.01;
-    alphaInput.value = '';
-    hiddenAlphaInput.value = 0.01;
-    hiddenAlphaInput.style.display = 'none';
+var alphaSlider = document.getElementById('alpha_slider');
+var alphaInput = document.getElementById('alpha_input');
+var hiddenAlphaInput = document.getElementById('id_alpha');
+alphaSlider.value = '';
+alphaInput.value = '';
+hiddenAlphaInput.value = '';
+hiddenAlphaInput.style.display = 'none';
+
+
 
     function createChart(ctx, type, data, options) {
         return new Chart(ctx, {
@@ -282,18 +271,22 @@ alphaInput.addEventListener('input', function() {
             }
         },
         scales: {
-            y: { min: minValue, max: maxValue+1 }
+            y: { min: minValue, max: maxValue }
         }
     });
 
-    function updateEVGraphs(alpha) {
+function updateEVGraphs(alpha) {
+    if (alpha === null || alpha === '' || isNaN(alpha)) {
+        ev_chart.data.datasets[0].data = [0, 0];
+    } else {
         var ev_down = (alpha * {{ x1_l }} + (1 - alpha) * {{ x2_h }}).toFixed(2);
         var ev_up = (alpha * {{ x1_h }} + (1 - alpha) * {{ x2_l }}).toFixed(2);
         ev_chart.data.datasets[0].data = [parseFloat(ev_down), parseFloat(ev_up)];
-        ev_chart.update();
     }
+    ev_chart.update();
+}
 
-    updateEVGraphs(0.5);
+    updateEVGraphs(null);
 
     alphaSlider.addEventListener('input', function() {
         updateAlphaFromSlider(this.value);

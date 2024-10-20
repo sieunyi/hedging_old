@@ -1,0 +1,32 @@
+{% extends "global/Page.html" %}
+{% block title %} Instructions {% endblock %}
+{% block content %}
+    <div class="container">
+        <ul style="font-size: 1.25rem; line-height: 1.5;">
+            <li>
+                <strong>Probability and Outcomes:</strong>
+                <ul style="font-size: 1.25rem; line-height: 1.5;">
+                    <li>With probability p: L1 decreases to its low value, L2 increases to its high value</li>
+                    <li>With probability (1-p): L1 increases to its high value, L2 decreases to its low value</li>
+                    <li>The exact probabilities and values will be shown to you in each round.</li>
+                    <li>Pay close attention to these numbers as they will change from round to round.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Rounds and Payment:</strong>
+                <ul style="font-size: 1.25rem; line-height: 1.5;">
+                    <li>The experiment consists of 45 rounds. Each round is independent.</li>
+                    <li>At the end of the experiment, one round will be randomly selected for payment.</li>
+                    <li>Your earnings will be based on your allocation decision in that round and the random outcome.</li>
+                    <li>Think carefully about each decision, as any round could be the one that determines your payment.</li>
+                </ul>
+            </li>
+
+
+        <p style="font-size: 1.25rem; margin-top: 20px;">
+            <strong>Remember:</strong> There are no right or wrong answers. We are interested in understanding your personal decision-making process in these scenarios.
+        </p>
+
+        {% next_button %}
+    </div>
+{% endblock %}

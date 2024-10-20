@@ -1,36 +1,28 @@
 {% extends "global/Page.html" %}
-{% block title %}Game Rules{% endblock %}
+{% block title %}Instructions{% endblock %}
 {% block content %}
-   <div class="container">
+    <div class="container">
+        <h5>Please read the following instructions carefully:</h5>
 
-        <p>Here's how the game works:</p>
-        <ol>
+        <ul style="font-size: 1.25rem; line-height: 1.5;">
             <li>
-                <strong>Your Goal:</strong> Divide your money between two lotteries.
-            </li>
-            <li>
-                <strong>About the Lotteries:</strong>
-                <ul>
-                    <li>Lottery 1 and Lottery 2 are like a see-saw:</li>
-                    <li>When one goes up, the other goes down.</li>
-                    <li>This happens randomly each round.</li>
+                <strong>Asset Allocation:</strong>
+                <ul style="font-size: 1.25rem; line-height: 1.5;">
+                    <li>You will be given 1 token to distribute between two lotteries: Lottery 1 (L1) and Lottery 2 (L2).</li>
+                    <li>Use the slider to allocate your tokens.</li>
+                    <li>Example: If you allocate 0.6 tokens to L1, the remaining 0.4 will automatically go to L2.</li>
                 </ul>
             </li>
             <li>
-                <strong>The Mechanics:</strong>
-                <ul>
-                    <li>With a probability of p: Lottery 1's price decreases, Lottery 2's price increases.</li>
-                    <li>With a probability of 1-p: Lottery 1's price increases, Lottery 2's price decreases.</li>
+                <strong>Inverse Relationship:</strong>
+                <ul style="font-size: 1.25rem; line-height: 1.5;">
+                    <li>L1 and L2 have an inverse relationship. When one increases in value, the other decreases.</li>
+                    <li>This means that in any outcome, one lottery will perform well while the other performs poorly.</li>
                 </ul>
             </li>
-            <li>
-                <strong>How to Play:</strong>
-                <ul>
-                    <li>Use a simple slider to decide how much money to put in Lottery 1.</li>
-                    <li>The remaining portion will automatically go to Lottery 2.</li>
-                </ul>
-            </li>
-        </ol>
+
+
+
         {% next_button %}
     </div>
 {% endblock %}

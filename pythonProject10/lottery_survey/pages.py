@@ -1,7 +1,6 @@
 from otree.api import Page
-from .models import Constants
+from .models import Constants, Player, Subsession
 import random
-
 
 class Roulette(Page):
     def is_displayed(self):
@@ -20,10 +19,10 @@ class Roulette(Page):
         # Safely get the alpha value, use a default if it's None
         alpha = player_in_selected_round.field_maybe_none('alpha')
         if alpha is None:
-            alpha = 0.5  # Default value if alpha is not set
+            alpha = 1  # Default value if alpha is not set
 
         p = round(scenario['p_values'][round_in_scenario], 2)
-        one_minus_p = round(1 - p, 2)
+        one_minus_p = round(1 - p, 2)  # Fixed: use p instead of player.p
         x1_l = scenario['x1_l_values'][round_in_scenario]
         x1_h = scenario['x1_h_values'][round_in_scenario]
         x2_l = scenario['x2_l_values'][round_in_scenario]
@@ -41,10 +40,8 @@ class Roulette(Page):
             'x2_l': round(x2_l, 1),
             'x2_h': round(x2_h, 1),
             'expected_value': round(expected_value, 2),
-            'Constants': Constants  # Add this line to include Constants in the context
+            'Constants': Constants
         }
-
-
 class ConsentForm(Page):
     form_model = 'player'
     form_fields = ['consent_age', 'consent_read', 'consent_participate']
@@ -57,28 +54,80 @@ class Introduction(Page):
         return self.round_number == 1
 
 
-
 class LotterySurvey(Page):
     form_model = 'player'
     form_fields = ['alpha']
 
     def vars_for_template(self):
-        scenario_index = (self.round_number - 1) // 9
-        round_in_scenario = (self.round_number - 1) % 9
+        # Ensure shuffled_rounds exists
+        if 'shuffled_rounds' not in self.session.vars:
+            self.session.vars['shuffled_rounds'] = Subsession.generate_shuffled_rounds()
+
+        shuffled_round = self.session.vars['shuffled_rounds'][self.round_number - 1]
+
+        # Store the original round number and scenario in player's model
+        self.player.original_round_number = shuffled_round
+
+        scenario_index = (shuffled_round - 1) // 9
+        round_in_scenario = (shuffled_round - 1) % 9
         scenario = Constants.scenarios[scenario_index]
+
+        # Save original scenario number
+        self.player.original_scenario_number = scenario_index + 1
+
+        # Calculate p and one_minus_p with rounding to avoid floating-point precision issues
+        p = round(scenario['p_values'][round_in_scenario], 2)
+        one_minus_p = round(1 - p, 2)
+
         vars_dict = {
             'round_number': self.round_number,
+            'original_round_number': shuffled_round,
             'num_rounds': Constants.num_rounds,
             'scenario_number': scenario_index + 1,
             'round_in_scenario': round_in_scenario + 1,
-            'p': scenario['p_values'][round_in_scenario],
-            'one_minus_p': self.player.one_minus_p,
-            'x1_l': scenario['x1_l_values'][round_in_scenario],
-            'x1_h': scenario['x1_h_values'][round_in_scenario],
-            'x2_l': scenario['x2_l_values'][round_in_scenario],
-            'x2_h': scenario['x2_h_values'][round_in_scenario],
+            'p': p,
+            'one_minus_p': one_minus_p,
+            'x1_l': round(scenario['x1_l_values'][round_in_scenario], 2),
+            'x1_h': round(scenario['x1_h_values'][round_in_scenario], 2),
+            'x2_l': round(scenario['x2_l_values'][round_in_scenario], 2),
+            'x2_h': round(scenario['x2_h_values'][round_in_scenario], 2),
         }
-        print("Debug - vars_for_template:", vars_dict)
+        return vars_dict
+
+
+class PracticeRound(Page):
+    form_model = 'player'
+    form_fields = ['alpha']
+
+    def is_displayed(self):
+        return self.round_number <= Constants.practice_rounds
+
+    def vars_for_template(self):
+        scenario_index = 0
+        round_in_scenario = self.round_number - 1
+        scenario = Constants.practice_scenarios[scenario_index]
+
+        # Store the practice round number in player's model
+        self.player.original_round_number = self.round_number
+
+        self.player.original_scenario_number = 1
+
+        # Use the specific values for each round
+        p = round(scenario['p_values'][round_in_scenario], 2)
+        one_minus_p = round(scenario['one_minus_p_values'][round_in_scenario], 2)
+
+        vars_dict = {
+            'round_number': self.round_number,
+            'num_rounds': Constants.practice_rounds,
+            'scenario_number': 1,
+            'round_in_scenario': self.round_number,
+            'p': p,
+            'one_minus_p': one_minus_p,
+            'x1_l': round(scenario['x1_l_values'][round_in_scenario], 2),
+            'x1_h': round(scenario['x1_h_values'][round_in_scenario], 2),
+            'x2_l': round(scenario['x2_l_values'][round_in_scenario], 2),
+            'x2_h': round(scenario['x2_h_values'][round_in_scenario], 2),
+        }
         return vars_dict
 
 
@@ -100,6 +149,19 @@ class example2(Page):
     def is_displayed(self):
         return self.round_number == 1
 
+
+class example3(Page):
+    def is_displayed(self):
+        return self.round_number == 1
+
+class earning(Page):
+    def is_displayed(self):
+        return self.round_number == 1
+
+class example4(Page):
+    def is_displayed(self):
+        return self.round_number == 1
+
 class welcome(Page):
     def is_displayed(self):
         return self.round_number == 1
@@ -108,10 +170,13 @@ class Introduction(Page):
     def is_displayed(self):
         return self.round_number == 1
 
+class Introduction2(Page):
+    def is_displayed(self):
+        return self.round_number == 1
 
 
 class SurveyIntroduc(Page):
-    template_name = 'investment_game/SurveyIntroduc.html'
+    template_name = 'lottery_survey/SurveyIntroduc.html'
 
     def is_displayed(self):
         return self.round_number == Constants.individual_rounds + 4
@@ -169,19 +234,6 @@ class EndPage(Page):
     pass
 
 
-class Practice(Page):
-    form_model = 'player'
-
-    def get_form_fields(self):
-        return []
-
-    def vars_for_template(self):
-        return {
-            'p': 0.6,
-            'one_minus_p': 0.4,
-        }
-    def is_displayed(self):
-        return self.round_number == 1
 
 
 class EarningsExplanation(Page):
@@ -191,20 +243,33 @@ class EarningsExplanation(Page):
         return self.round_number == 1  # Only show on the first round
 
 
-page_sequence = [
-                 welcome,
-                 Introduction,
-                 example2,
-                Practice,
-    EarningsExplanation,
-    LotterySurvey,
-                 Roulette,
-                 SurveyIntroduc,
-                 Demographics,
-                 CognitiveReflectionTest,
-                 FinancialLiteracy,
-                 RiskAttitudes,
-              #   MatrixReasoning,
-                 DecisionMakingScenarios,
-                 EndPage
-                 ]
+
+# Define the initial sequence
+initial_sequence = [
+    welcome,
+    Introduction,
+    Introduction2,
+    example2,
+####earning,
+    example3,
+    example
+]
+
+practice_rounds = [PracticeRound]* Constants.practice_rounds
+
+# Define the main experiment sequence
+main_sequence = [
+    example4,
+  #  LotterySurvey,
+    Roulette,
+    SurveyIntroduc,
+    Demographics,
+    CognitiveReflectionTest,
+    FinancialLiteracy,
+    RiskAttitudes,
+    DecisionMakingScenarios,
+    EndPage
+]
+
+# Combine all sequences
+page_sequence = initial_sequence + practice_rounds + main_sequence
